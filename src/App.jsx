@@ -100,7 +100,7 @@ function App() {
       {/* Coin Reward */}
       {completedCount > 0 && (
         <div className="alert alert-warning mt-4 text-center reward-coin">
-          🎉 You've earned <strong>{completedCount * 10} coins</strong> for
+           Awesome 🎉 You've earned <strong>{completedCount * 10} coins</strong> for
           completing {completedCount} task{completedCount > 1 ? "s" : ""}!
         </div>
       )}
