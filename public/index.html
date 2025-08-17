@@ -5,45 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To-do App with Rewards</title>
 
-    <!-- Marquee Header -->
-    <marquee behavior="scroll" direction="left" scrollamount="10" style="background: #fb8b24; color: white; font-weight: bold; padding: 5px;">
-      📝 ADD YOUR TASKS HERE & COMPLETE TO EARN COINS 🎉
-    </marquee>
-    
-<div id="root" class="container my-5" data-aos="fade-up">
-      <h3 class="mb-4">✅ Your Tasks</h3>
-      <div class="card todo-card p-3">
-        <h5>Sample Task</h5>
-        <p>Complete this task to earn 10 coins.</p>
-        <span class="badge bg-success">Work</span>
-      </div>
-    </div>
     <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
- <div id="rewards" class="container my-5" data-aos="zoom-in">
-      <h3>🏆 Rewards</h3>
-      <p>Complete tasks to unlock badges & coins!</p>
-      <div class="progress my-3">
-        <div
-          class="progress-bar bg-success"
-          role="progressbar"
-          style="width: 50%"
-        >
-          5 / 10 Tasks Completed
-        </div>
-      </div>
-    </div>
 
-    <div id="profile" class="container my-5" data-aos="fade-up">
-      <div class="card p-3">
-        <h4>👤 Profile</h4>
-        <p><b>User:</b> Guest</p>
-        <p><b>Total Coins:</b> 120</p>
-      </div>
-    </div>
     <!-- Animate.css for effects -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
@@ -68,13 +35,20 @@
         background: var(--light);
         font-family: "Segoe UI", sans-serif;
         transition: background 0.3s, color 0.3s;
+        scroll-behavior: smooth;
       }
 
       .dark-mode {
-        background-color: #121212;
-        color: #e0e0e0;
+        background-color: #121212 !important;
+        color: #e0e0e0 !important;
       }
 
+      .navbar {
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+      }
+
+      /* Hero */
       .hero-section {
         background: linear-gradient(to right, var(--primary), var(--secondary));
         color: white;
@@ -94,6 +68,7 @@
         margin-bottom: 20px;
       }
 
+      /* Cards */
       .todo-card {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         border-radius: 12px;
@@ -105,21 +80,15 @@
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
       }
 
-      .reward-coin {
-        animation: pop 0.5s ease;
+      /* Coin counter */
+      .coin-counter {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1100;
       }
 
-      @keyframes pop {
-        0% {
-          transform: scale(0.2);
-          opacity: 0;
-        }
-        100% {
-          transform: scale(1);
-          opacity: 1;
-        }
-      }
-
+      /* Floating button */
       .floating-btn {
         position: fixed;
         bottom: 20px;
@@ -141,8 +110,8 @@
 
       .dark-toggle {
         position: fixed;
-        top: 20px;
-        right: 20px;
+        top: 70px;
+        right: 10px;
         background: var(--dark);
         color: white;
         border: none;
@@ -152,18 +121,106 @@
         cursor: pointer;
         z-index: 1000;
       }
+
+      /* Modern marquee */
+      .marquee {
+        white-space: nowrap;
+        overflow: hidden;
+        background: var(--secondary);
+        color: white;
+        font-weight: bold;
+        padding: 5px;
+      }
+      .marquee span {
+        display: inline-block;
+        padding-left: 100%;
+        animation: marquee 12s linear infinite;
+      }
+      @keyframes marquee {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(-100%, 0);
+        }
+      }
     </style>
   </head>
 
   <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: var(--primary);">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">To-do Rewards</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#root">Tasks</a></li>
+            <li class="nav-item"><a class="nav-link" href="#rewards">Rewards</a></li>
+            <li class="nav-item"><a class="nav-link" href="#profile">Profile</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Marquee -->
+    <div class="marquee">
+      <span>📝 ADD YOUR TASKS HERE & COMPLETE TO EARN COINS 🎉</span>
+    </div>
+
     <!-- Hero Header -->
     <div class="hero-section animate__animated animate__fadeInDown">
       <h1>🎯 To-do App with Rewards</h1>
       <p>Stay productive and earn virtual coins for completing tasks!</p>
     </div>
 
+    <!-- Coin Counter -->
+    <div class="coin-counter">
+      <span class="badge bg-warning text-dark fs-6"
+        >💰 Coins: <span id="coinCount">0</span></span
+      >
+    </div>
+
     <!-- React Mounting Root -->
-    <div id="root" class="container my-5" data-aos="fade-up"></div>
+    <div id="root" class="container my-5" data-aos="fade-up">
+      <h3 class="mb-4">✅ Your Tasks</h3>
+      <div class="card todo-card p-3">
+        <h5>Sample Task</h5>
+        <p>Complete this task to earn 10 coins.</p>
+        <span class="badge bg-success">Work</span>
+      </div>
+    </div>
+
+    <!-- Rewards Section -->
+    <div id="rewards" class="container my-5" data-aos="zoom-in">
+      <h3>🏆 Rewards</h3>
+      <p>Complete tasks to unlock badges & coins!</p>
+      <div class="progress my-3">
+        <div
+          class="progress-bar bg-success"
+          role="progressbar"
+          style="width: 50%"
+        >
+          5 / 10 Tasks Completed
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Section -->
+    <div id="profile" class="container my-5" data-aos="fade-up">
+      <div class="card p-3">
+        <h4>👤 Profile</h4>
+        <p><b>User:</b> Guest</p>
+        <p><b>Total Coins:</b> 120</p>
+      </div>
+    </div>
 
     <!-- Floating Add Task Button -->
     <button class="floating-btn" onclick="scrollToTaskForm()">➕ Add Task</button>
